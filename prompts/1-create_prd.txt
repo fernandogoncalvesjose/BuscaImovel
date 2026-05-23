@@ -1,0 +1,79 @@
+Você é um Product Manager e Arquiteto de Software especialista em SaaS, mercado imobiliário e aplicações web modernas.
+
+Crie um PRD técnico completo para um MVP chamado "ImovelHub SP".
+
+Contexto:
+Quero criar um site agregador de imóveis na cidade de São Paulo. A ideia é permitir que o usuário busque imóveis para comprar ou alugar em um único lugar, usando filtros parecidos com QuintoAndar, Zap Imóveis e Viva Real. O sistema deve listar imóveis agregados de diferentes fontes e redirecionar o usuário para o site original do anúncio.
+
+Stack definida:
+- Frontend: Next.js, TypeScript, Tailwind CSS e shadcn/ui
+- Backend: C# com ASP.NET Core Web API
+- ORM: Entity Framework Core
+- Banco inicial: SQLite
+- Publicação frontend: Vercel
+- Publicação backend: serviço gratuito compatível com .NET, como Render, Fly.io ou Railway
+- Arquitetura AI First, com código gerado e evoluído com ajuda de IA
+
+Objetivo do MVP:
+Criar uma primeira versão funcional com imóveis cadastrados manualmente ou via seed, sem scraping automático nesta fase.
+
+Funcionalidades obrigatórias:
+1. Página inicial com busca de imóveis
+2. Filtros por:
+   - tipo de negociação: aluguel ou compra
+   - bairro
+   - preço mínimo
+   - preço máximo
+   - quantidade de quartos
+   - vagas
+   - área mínima
+   - aceita pet
+   - mobiliado
+3. Listagem de imóveis em cards
+4. Página de detalhe do imóvel
+5. Link para abrir o anúncio no site original
+6. Cálculo de custo mensal total:
+   - aluguel/preço
+   - condomínio
+   - IPTU
+7. Cálculo de preço por metro quadrado
+8. Campo de origem do anúncio:
+   - QuintoAndar
+   - Zap Imóveis
+   - Viva Real
+   - Imovelweb
+   - OLX
+9. Dados iniciais populados via seed no SQLite
+
+Funcionalidades desejadas para versões futuras:
+1. Deduplicação de imóveis iguais
+2. Histórico de preço
+3. Score do imóvel
+4. Busca por linguagem natural com IA
+5. Alertas inteligentes
+6. Comparador de imóveis
+7. Integração com mapas
+8. Dados de segurança, transporte e bairro
+9. Importação automática de fontes externas
+10. Painel administrativo
+
+Entregáveis do PRD:
+- Visão geral do produto
+- Problema que resolve
+- Persona principal
+- Jornada do usuário
+- Funcionalidades do MVP
+- Funcionalidades fora do MVP
+- Regras de negócio
+- Modelo de dados inicial
+- Entidades principais
+- Endpoints da API
+- Estrutura de pastas sugerida
+- Critérios de aceite
+- Roadmap por fases
+- Riscos técnicos e jurídicos
+- Estratégia de publicação grátis
+- Próximos prompts para gerar o código
+
+Importante:
+Escreva o PRD em português do Brasil, de forma clara, objetiva e pronta para ser usada como documentação do projeto.

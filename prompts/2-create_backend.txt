@@ -1,0 +1,148 @@
+Você é um arquiteto e desenvolvedor backend sênior especialista em C#, .NET, Entity Framework Core, SQLite e APIs REST.
+
+Crie o backend completo do projeto "Busca Imóvel".
+
+Contexto:
+O projeto é um agregador de imóveis para São Paulo. Nesta primeira versão MVP, os imóveis serão carregados via seed no banco SQLite. Ainda não haverá scraping nem importação automática.
+
+Stack:
+- .NET 8
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQLite
+- Swagger
+- C#
+- Arquitetura simples, organizada e fácil de evoluir
+
+Estrutura esperada:
+
+BuscaImovel/
+└── backend/
+    └── BuscaImovel.Api/
+
+Crie uma API com:
+
+1. Entidade Property com os campos:
+- Id: Guid
+- Title: string
+- Description: string
+- TransactionType: string // Rent ou Sale
+- PropertyType: string // Apartment, House, Studio etc.
+- Price: decimal
+- CondoFee: decimal?
+- Iptu: decimal?
+- Area: decimal
+- Bedrooms: int
+- Bathrooms: int
+- ParkingSpaces: int
+- Neighborhood: string
+- City: string
+- Address: string?
+- IsPetFriendly: bool
+- IsFurnished: bool
+- SourceName: string
+- SourceUrl: string
+- ImageUrl: string?
+- CreatedAt: DateTime
+- UpdatedAt: DateTime?
+
+2. Campos calculados:
+- TotalMonthlyCost
+  - Para aluguel: Price + CondoFee + Iptu
+- PricePerSquareMeter
+  - Price / Area
+
+3. Criar DbContext:
+- BuscaImovelDbContext
+- DbSet<Property>
+
+4. Configurar SQLite:
+- Arquivo: buscaimovel.db
+- ConnectionString no appsettings.json
+
+5. Criar migration inicial
+
+6. Criar seed automático com pelo menos 15 imóveis fictícios de São Paulo:
+- Tatuapé
+- Moema
+- Vila Mariana
+- Pinheiros
+- Perdizes
+- Santana
+- Brooklin
+- Saúde
+- Butantã
+- Bela Vista
+
+Misturar:
+- aluguel
+- compra
+- apartamentos
+- casas
+- studios
+- imóveis mobiliados
+- imóveis pet friendly
+
+7. Criar endpoints REST:
+
+GET /api/properties
+Lista imóveis com filtros opcionais:
+- transactionType
+- propertyType
+- neighborhood
+- minPrice
+- maxPrice
+- minBedrooms
+- minParkingSpaces
+- minArea
+- isPetFriendly
+- isFurnished
+- sourceName
+
+GET /api/properties/{id}
+Busca imóvel por Id
+
+GET /api/properties/neighborhoods
+Lista bairros disponíveis
+
+GET /api/properties/sources
+Lista fontes disponíveis
+
+GET /api/health
+Retorna status da API
+
+8. Criar DTOs:
+- PropertyResponseDto
+- PropertyFilterRequestDto
+
+9. Criar camada de organização simples:
+- Controllers
+- Data
+- Entities
+- DTOs
+- Services
+- Mappings
+
+10. Criar service:
+- IPropertyService
+- PropertyService
+
+11. Configurar Swagger
+
+12. Configurar CORS para permitir o frontend Next.js:
+- http://localhost:3000
+- futuramente domínio da Vercel
+
+13. Criar README.md do backend com:
+- como rodar o projeto
+- como aplicar migrations
+- como acessar Swagger
+- exemplos de chamadas da API
+
+Importante:
+- Gere todo o código necessário.
+- Use boas práticas, mas sem exagerar na arquitetura.
+- Não use Clean Architecture complexa neste momento.
+- Quero algo simples, funcional e fácil de evoluir.
+- O projeto deve compilar sem erros.
+- Explique ao final quais comandos preciso rodar no terminal.

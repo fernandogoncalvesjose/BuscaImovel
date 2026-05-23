@@ -1,0 +1,6 @@
+@BuscaImovel.Api_HostAddress = http://localhost:5126
+
+GET {{BuscaImovel.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
