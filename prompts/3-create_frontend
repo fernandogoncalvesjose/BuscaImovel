@@ -1,0 +1,146 @@
+Você é um desenvolvedor frontend sênior especialista em Next.js, TypeScript, Tailwind CSS, shadcn/ui e UX para marketplaces.
+
+Crie o frontend do projeto "Busca Imóvel".
+
+Estrutura oficial do projeto:
+
+BuscaImovel/
+├── backend/
+│   └── BuscaImovel.Api
+├── frontend/
+│   └── busca-imovel-web
+└── docs/
+    └── prd.md
+
+Contexto:
+O backend já foi criado em .NET com SQLite e expõe uma API REST para listar imóveis, buscar detalhes, bairros e fontes.
+
+Stack do frontend:
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Axios ou fetch
+- Layout moderno, responsivo e limpo
+
+Objetivo:
+Criar uma primeira versão funcional do frontend para buscar e visualizar imóveis em São Paulo.
+
+URLs esperadas da API:
+- GET /api/properties
+- GET /api/properties/{id}
+- GET /api/properties/neighborhoods
+- GET /api/properties/sources
+- GET /api/health
+
+Base URL da API:
+- usar variável de ambiente:
+  NEXT_PUBLIC_API_URL=http://localhost:5000
+
+Funcionalidades obrigatórias:
+
+1. Página inicial `/`
+Deve conter:
+- título "Busca Imóvel"
+- subtítulo "Todos os imóveis em um só lugar"
+- campo de busca por bairro ou palavra-chave
+- filtros:
+  - tipo de negociação: aluguel ou compra
+  - tipo de imóvel
+  - bairro
+  - preço mínimo
+  - preço máximo
+  - quartos mínimos
+  - vagas mínimas
+  - área mínima
+  - aceita pet
+  - mobiliado
+  - fonte do anúncio
+
+2. Listagem de imóveis
+Cada card deve mostrar:
+- imagem
+- título
+- bairro
+- cidade
+- preço formatado em Real
+- condomínio
+- IPTU
+- custo mensal total
+- área
+- quartos
+- banheiros
+- vagas
+- preço por m²
+- origem do anúncio
+- botão "Ver detalhes"
+
+3. Página de detalhes `/properties/[id]`
+Deve mostrar:
+- imagem grande
+- título
+- descrição
+- preço
+- condomínio
+- IPTU
+- custo mensal total
+- preço por m²
+- área
+- quartos
+- banheiros
+- vagas
+- bairro
+- endereço
+- fonte
+- botão "Ver anúncio original"
+
+4. Componentes esperados:
+- PropertyCard
+- PropertyFilters
+- PropertyList
+- Header
+- EmptyState
+- LoadingState
+
+5. Serviços:
+Criar um service para consumir API:
+- getProperties(filters)
+- getPropertyById(id)
+- getNeighborhoods()
+- getSources()
+
+6. Tipos TypeScript:
+Criar types:
+- Property
+- PropertyFilter
+
+7. UX:
+- loading durante busca
+- mensagem quando não encontrar imóveis
+- filtros responsivos
+- cards bonitos e limpos
+- visual moderno e profissional
+- layout mobile-first
+
+8. shadcn/ui:
+Usar componentes quando fizer sentido:
+- Button
+- Input
+- Select
+- Card
+- Badge
+- Checkbox
+
+9. Importante:
+- O projeto deve compilar sem erros.
+- Usar boas práticas, mas sem complexidade exagerada.
+- Não criar autenticação ainda.
+- Não criar painel administrativo ainda.
+- Não criar mapa ainda.
+- Deixar preparado para evoluir depois.
+
+10. Crie também:
+- .env.local.example
+- README.md do frontend com instruções para rodar
+
+Ao final, explique quais comandos preciso executar.
