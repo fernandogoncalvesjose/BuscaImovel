@@ -18,6 +18,17 @@ namespace BuscaImovel.Api.Services
         {
             var query = _dbContext.Properties.AsNoTracking().AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(filter.Query))
+            {
+                var searchTerm = filter.Query.Trim().ToLower();
+                query = query.Where(x =>
+                    x.Title.ToLower().Contains(searchTerm) ||
+                    x.Description.ToLower().Contains(searchTerm) ||
+                    x.Neighborhood.ToLower().Contains(searchTerm) ||
+                    x.City.ToLower().Contains(searchTerm)
+                );
+            }
+
             if (!string.IsNullOrWhiteSpace(filter.TransactionType))
             {
                 query = query.Where(x => x.TransactionType == filter.TransactionType);

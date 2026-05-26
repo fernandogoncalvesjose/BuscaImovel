@@ -11,8 +11,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
-        policy.SetIsOriginAllowed(origin =>
-            origin == "http://localhost:3000" || origin.EndsWith(".vercel.app"))
+        policy.WithOrigins(
+                "http://localhost:3000",
+                "https://localhost:3000"
+            )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();

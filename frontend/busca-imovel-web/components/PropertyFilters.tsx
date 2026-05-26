@@ -6,6 +6,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import Input from "@/components/ui/Input";
 import Label from "@/components/ui/Label";
 import Select from "@/components/ui/Select";
+import { useMemo, useState } from "react";
 
 interface PropertyFiltersProps {
     filter: PropertyFilter;
@@ -28,6 +29,24 @@ export default function PropertyFilters({
     sources,
     onFilterChange,
 }: PropertyFiltersProps) {
+    const [open, setOpen] = useState(true);
+
+    const isActive = useMemo(() => {
+        return Boolean(
+            (filter.query && filter.query.trim() !== "") ||
+            filter.transactionType ||
+            filter.propertyType ||
+            filter.neighborhood ||
+            filter.sourceName ||
+            filter.minPrice ||
+            filter.maxPrice ||
+            filter.minBedrooms ||
+            filter.minParkingSpaces ||
+            filter.minArea ||
+            filter.isPetFriendly ||
+            filter.isFurnished,
+        );
+    }, [filter]);
     function updateFilter<K extends keyof PropertyFilter>(
         key: K,
         value: PropertyFilter[K],
@@ -53,7 +72,27 @@ export default function PropertyFilters({
     }
 
     return (
-        <aside className="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
+        <aside
+            className={`space-y-6 rounded-[2rem] border bg-white p-6 shadow-soft ${
+                isActive ? "border-primary/30" : "border-slate-200"
+            }`}
+        >
+            <div className="flex items-center justify-between sm:hidden">
+                <div>
+                    <h2 className="text-lg font-semibold text-slate-950">
+                        Filtros
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                        Toque para abrir/fechar
+                    </p>
+                </div>
+                <button
+                    className="rounded-lg bg-slate-100 px-3 py-2 text-sm"
+                    onClick={() => setOpen((v) => !v)}
+                >
+                    {open ? "Fechar" : "Abrir"}
+                </button>
+            </div>
             <div className="space-y-3">
                 <h2 className="text-xl font-semibold text-slate-950">
                     Buscar imóveis
@@ -64,7 +103,7 @@ export default function PropertyFilters({
                 </p>
             </div>
 
-            <div className="space-y-4">
+            <div className={`space-y-4 ${open ? "block" : "hidden"}`}>
                 <div>
                     <Label htmlFor="search">
                         Buscar por bairro ou palavra-chave

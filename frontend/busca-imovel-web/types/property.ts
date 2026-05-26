@@ -21,6 +21,7 @@ export type Property = {
   imageUrl?: string;
   totalMonthlyCost: number;
   pricePerSquareMeter: number;
+  createdAt?: string;
 };
 
 export type PropertyFilter = {

@@ -1,23 +1,46 @@
 import Link from "next/link";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
+import ImageWithFallback from "@/components/ImageWithFallback";
 import { formatCurrency } from "@/utils/formatters";
 import { Property } from "@/types/property";
 
 interface PropertyCardProps {
     property: Property;
+    medianPricePerM2?: number;
 }
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({
+    property,
+    medianPricePerM2,
+}: PropertyCardProps) {
+    const badges: string[] = [];
+
+    if (property.isPetFriendly) badges.push("Aceita pet");
+    if (property.isFurnished) badges.push("Mobiliado");
+    if (property.condoFee && property.condoFee > 0 && property.condoFee < 300)
+        badges.push("Baixo condomínio");
+    if (medianPricePerM2 && property.pricePerSquareMeter <= medianPricePerM2)
+        badges.push("Menor preço/m²");
+    // New announcement: within 14 days
+    if (property.createdAt) {
+        const created = new Date(property.createdAt);
+        const days = (Date.now() - created.getTime()) / (1000 * 60 * 60 * 24);
+        if (days <= 14) badges.push("Novo anúncio");
+    }
+    // Simple cost-benefit heuristic
+    if (
+        property.totalMonthlyCost &&
+        property.pricePerSquareMeter &&
+        property.pricePerSquareMeter < 5000
+    )
+        badges.push("Bom custo-benefício");
     return (
         <Card className="overflow-hidden">
             <div className="grid gap-4 sm:grid-cols-[1.2fr_1fr]">
                 <div className="relative h-56 overflow-hidden bg-slate-100 sm:h-auto">
-                    <img
-                        src={
-                            property.imageUrl ||
-                            "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80"
-                        }
+                    <ImageWithFallback
+                        src={property.imageUrl ?? undefined}
                         alt={property.title}
                         className="h-full w-full object-cover"
                     />
@@ -28,6 +51,16 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                             <Badge>{property.transactionType}</Badge>
                             <Badge>{property.propertyType}</Badge>
                             <Badge>{property.sourceName}</Badge>
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                            {badges.slice(0, 4).map((b) => (
+                                <span
+                                    key={b}
+                                    className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+                                >
+                                    {b}
+                                </span>
+                            ))}
                         </div>
                         <div>
                             <h3 className="text-xl font-semibold text-slate-950">
@@ -107,12 +140,22 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                         >
                             Ver detalhes
                         </Link>
-                        <span className="text-sm text-slate-500">
-                            Total mensal:{" "}
-                            <strong className="text-slate-900">
-                                {formatCurrency(property.totalMonthlyCost)}
-                            </strong>
-                        </span>
+                        <div className="rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm">
+                            <p className="text-xs text-slate-500">
+                                Custo mensal estimado
+                            </p>
+                            <div className="mt-1 flex items-baseline gap-2">
+                                <span className="text-2xl font-bold text-slate-900">
+                                    {formatCurrency(property.totalMonthlyCost)}
+                                </span>
+                                <span className="text-sm text-slate-500">
+                                    /mês
+                                </span>
+                            </div>
+                            <p className="mt-2 text-xs text-slate-500">
+                                Inclui aluguel, condomínio e IPTU
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

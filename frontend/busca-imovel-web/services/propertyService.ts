@@ -1,6 +1,10 @@
 import { Property, PropertyFilter } from '@/types/property';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? '';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '');
+
+if (!apiUrl) {
+  throw new Error('NEXT_PUBLIC_API_URL não está configurado no frontend');
+}
 
 function buildSearchParams(filters: PropertyFilter) {
   const params = new URLSearchParams();
@@ -9,6 +13,7 @@ function buildSearchParams(filters: PropertyFilter) {
   if (filters.propertyType) params.set('propertyType', filters.propertyType);
   if (filters.neighborhood) params.set('neighborhood', filters.neighborhood);
   if (filters.sourceName) params.set('sourceName', filters.sourceName);
+  if (filters.query && filters.query.trim()) params.set('query', filters.query.trim());
   if (typeof filters.minPrice === 'number') params.set('minPrice', String(filters.minPrice));
   if (typeof filters.maxPrice === 'number') params.set('maxPrice', String(filters.maxPrice));
   if (typeof filters.minBedrooms === 'number') params.set('minBedrooms', String(filters.minBedrooms));

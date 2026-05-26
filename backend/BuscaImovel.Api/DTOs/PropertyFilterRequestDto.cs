@@ -2,6 +2,7 @@ namespace BuscaImovel.Api.DTOs
 {
     public class PropertyFilterRequestDto
     {
+        public string? Query { get; set; }
         public string? TransactionType { get; set; }
         public string? PropertyType { get; set; }
         public string? Neighborhood { get; set; }

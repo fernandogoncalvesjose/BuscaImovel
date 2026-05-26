@@ -1,0 +1,107 @@
+Você é um Product Designer e Desenvolvedor Frontend Sênior especialista em Next.js, Tailwind CSS, shadcn/ui, marketplaces e experiência de busca imobiliária.
+
+O projeto "Busca Imóvel" já possui:
+- Backend .NET com EF Core + SQLite
+- Frontend Next.js funcionando
+- Listagem de imóveis
+- Filtros
+- Página de detalhes
+- Integração frontend/backend
+
+Agora quero melhorar a experiência do MVP para que ele pareça mais profissional e gere mais valor para quem busca imóvel.
+
+Objetivo da Etapa 5:
+Melhorar a UX da busca e criar pequenos diferenciais que ajudem o usuário a decidir melhor.
+
+Funcionalidades a implementar:
+
+1. Ordenação dos imóveis
+Adicionar opções:
+- Menor preço
+- Maior preço
+- Menor custo mensal
+- Maior área
+- Menor preço por m²
+- Mais recentes
+
+2. Destaque de custo mensal real
+Nos cards e detalhes, destacar:
+- preço
+- condomínio
+- IPTU
+- custo mensal total
+
+O custo mensal total deve aparecer como uma informação de decisão, não apenas como texto pequeno.
+
+3. Badges inteligentes nos cards
+Criar badges como:
+- Aceita pet
+- Mobiliado
+- Bom custo-benefício
+- Menor preço/m²
+- Novo anúncio
+- Baixo condomínio
+
+As badges podem ser calculadas no frontend inicialmente.
+
+4. Melhorar filtros
+Adicionar:
+- botão "Limpar filtros"
+- contador de imóveis encontrados
+- filtros colapsáveis no mobile
+- estado visual para filtros ativos
+
+5. Melhorar Empty State
+Quando não encontrar imóveis, mostrar:
+- mensagem amigável
+- sugestão para remover filtros
+- botão "Limpar filtros"
+
+6. Melhorar página de detalhes
+Adicionar uma seção chamada:
+"Resumo inteligente"
+
+Esse resumo deve mostrar:
+- custo mensal total
+- preço por m²
+- perfil do imóvel
+- principais pontos positivos
+
+Exemplo:
+"Este apartamento em Moema possui 72m², 2 quartos e 1 vaga. O custo mensal estimado é de R$ 5.200, considerando aluguel, condomínio e IPTU. É uma boa opção para quem busca imóvel mobiliado e aceita pet."
+
+7. Criar componente de comparação visual simples
+Na página de detalhes, criar cards com:
+- Preço
+- Condomínio
+- IPTU
+- Total mensal
+- Preço por m²
+
+8. Melhorar visual geral
+- Header mais profissional
+- Hero section mais forte
+- Cards mais modernos
+- Melhor espaçamento
+- Layout responsivo
+- CTA claro
+
+9. Não implementar ainda:
+- login
+- favoritos
+- mapa
+- scraping
+- painel administrativo
+- IA real integrada
+
+Importante:
+- Manter código simples
+- Não quebrar integração atual
+- Usar TypeScript corretamente
+- Componentizar quando fizer sentido
+- Garantir que o projeto continue compilando
+
+Ao final, explique:
+- arquivos alterados
+- funcionalidades implementadas
+- como testar manualmente

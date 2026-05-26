@@ -1,0 +1,57 @@
+Você é um desenvolvedor fullstack sênior especialista em Next.js, C#, ASP.NET Core Web API, EF Core e integração frontend/backend.
+
+O projeto "Busca Imóvel" já tem:
+- Backend em .NET com EF Core + SQLite
+- Frontend em Next.js rodando
+- Estrutura raiz: BuscaImovel
+
+Agora preciso revisar e ajustar a integração completa entre frontend e backend.
+
+Objetivos:
+1. Garantir que o frontend consuma corretamente a API .NET
+2. Corrigir CORS
+3. Validar os DTOs retornados pela API
+4. Garantir que filtros funcionem
+5. Corrigir problema de imagens que não carregam
+6. Deixar tudo funcionando localmente
+
+Estrutura:
+
+BuscaImovel/
+├── backend/
+│   └── BuscaImovel.Api
+└── frontend/
+    └── busca-imovel-web
+
+Backend:
+- Verifique Program.cs
+- Configure CORS permitindo:
+  - http://localhost:3000
+  - https://localhost:3000
+- Confirme se Swagger continua funcionando
+- Confirme se endpoints retornam JSON corretamente
+- Confirme se campos calculados aparecem:
+  - totalMonthlyCost
+  - pricePerSquareMeter
+
+Frontend:
+- Verifique NEXT_PUBLIC_API_URL no .env.local
+- Criar fallback para imagem quando imageUrl vier vazio, inválido ou quebrado
+- Ajustar next.config.js para permitir imagens externas
+- Garantir tratamento de erro nas chamadas da API
+- Garantir loading state
+- Garantir empty state
+- Garantir que filtros gerem query string corretamente
+
+Regras:
+- Não alterar a stack
+- Não criar autenticação
+- Não criar painel administrativo
+- Não criar mapa ainda
+- Manter o projeto simples e funcional
+
+Entrega esperada:
+- Código corrigido
+- Explicação dos arquivos alterados
+- Comandos para rodar backend e frontend
+- Checklist de testes manuais
