@@ -41,6 +41,27 @@ dotnet run
 
 A API será executada em `http://localhost:5000` por padrão.
 
+### Collector de imóveis
+
+O projeto `collectors/BuscaImovel.Collectors` é responsável por coletar dados externos simulados, normalizar o modelo e gravar no mesmo banco SQLite usado pela API.
+
+```powershell
+cd collectors/BuscaImovel.Collectors
+dotnet restore
+dotnet build
+dotnet run
+```
+
+O collector usa a mesma connection string definida em `collectors/BuscaImovel.Collectors/appsettings.json`.
+
+### Migrations
+
+```powershell
+cd backend/BuscaImovel.Api
+dotnet ef migrations add AddPropertyExternalMetadata
+dotnet ef database update
+```
+
 ### Endpoints principais
 
 - `GET /api/properties`

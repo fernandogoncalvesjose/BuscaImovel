@@ -1,0 +1,135 @@
+Você é um arquiteto backend sênior especialista em C#, .NET, EF Core, jobs, scraping ético e arquitetura modular.
+
+No projeto "Busca Imóvel", preciso criar a arquitetura inicial para coleta/importação de imóveis.
+
+Estrutura oficial:
+
+BuscaImovel/
+├── backend/
+│   └── BuscaImovel.Api
+├── collectors/
+│   └── BuscaImovel.Collectors
+├── frontend/
+│   └── busca-imovel-web
+└── docs/
+    └── prd.md
+
+Objetivo:
+Criar um projeto Console App em .NET 8 chamado BuscaImovel.Collectors, responsável por coletar imóveis de fontes externas, normalizar os dados e salvar no mesmo banco SQLite usado pela API.
+
+Nesta etapa NÃO implementar scraping real ainda.
+Criar apenas a arquitetura base, contratos, modelos e fluxo simulado.
+
+Tarefas:
+
+1. Criar projeto:
+- BuscaImovel.Collectors
+
+2. Referenciar ou compartilhar acesso ao:
+- DbContext existente
+- Entity Property existente
+- configuração do SQLite
+
+Se necessário, reorganizar o backend para permitir reuso da camada Data e Entities sem duplicação excessiva.
+
+3. Atualizar a entidade Property adicionando:
+- ExternalId: string?
+- LastSeenAt: DateTime?
+- IsActive: bool
+- SourceName: string
+- SourceUrl: string
+
+4. Criar migration para novos campos.
+
+5. Criar modelo intermediário:
+ExternalPropertyDto
+
+Campos:
+- ExternalId
+- Title
+- Description
+- TransactionType
+- PropertyType
+- Price
+- CondoFee
+- Iptu
+- Area
+- Bedrooms
+- Bathrooms
+- ParkingSpaces
+- Neighborhood
+- City
+- Address
+- IsPetFriendly
+- IsFurnished
+- SourceName
+- SourceUrl
+- ImageUrl
+
+6. Criar interface genérica:
+IPropertyCollector
+
+Método:
+Task<IEnumerable<ExternalPropertyDto>> CollectAsync();
+
+7. Criar um collector fake:
+FakePropertyCollector
+
+Ele deve retornar 5 imóveis simulados como se viessem de uma fonte externa.
+
+8. Criar serviço:
+PropertyImportService
+
+Responsabilidades:
+- receber imóveis externos
+- verificar se já existe imóvel com mesmo SourceName + ExternalId
+- se existir, atualizar dados principais
+- se não existir, inserir novo
+- preencher LastSeenAt
+- marcar IsActive = true
+- salvar no banco
+
+9. Criar Program.cs do console app:
+- carregar configuração
+- configurar DI
+- configurar DbContext com SQLite
+- registrar IPropertyCollector com FakePropertyCollector
+- registrar PropertyImportService
+- executar coleta
+- importar dados
+- exibir no console:
+  - total coletado
+  - total inserido
+  - total atualizado
+  - erros, se houver
+
+10. Criar classe de resultado:
+ImportResult
+Campos:
+- Collected
+- Inserted
+- Updated
+- Skipped
+- Errors
+
+11. Criar logs simples no console.
+
+12. Atualizar README com:
+- como rodar o collector
+- como aplicar migration
+- como verificar imóveis importados pela API
+
+Regras:
+- Não implementar OLX ainda
+- Não implementar Zap ainda
+- Não usar Selenium ainda
+- Não criar scraping real nesta etapa
+- Não quebrar a API atual
+- Manter arquitetura simples e evolutiva
+- O código deve compilar sem erros
+
+Ao final, explique:
+- arquivos criados
+- arquivos alterados
+- comandos para executar
+- como testar manualmente

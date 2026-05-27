@@ -5,6 +5,7 @@ namespace BuscaImovel.Api.Entities
     public class Property
     {
         public Guid Id { get; set; }
+        public string? ExternalId { get; set; }
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string TransactionType { get; set; } = null!;
@@ -24,6 +25,8 @@ namespace BuscaImovel.Api.Entities
         public string SourceName { get; set; } = null!;
         public string SourceUrl { get; set; } = null!;
         public string? ImageUrl { get; set; }
+        public DateTime? LastSeenAt { get; set; }
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
