@@ -21,7 +21,35 @@ using var host = Host.CreateDefaultBuilder(args)
         services.AddDbContext<BuscaImovelDbContext>(options =>
             options.UseSqlite(connectionString));
 
-        services.AddScoped<IPropertyCollector, FakePropertyCollector>();
+        // bind collectors settings
+        services.Configure<CollectorSettings>(configuration.GetSection("Collectors:Olx"));
+
+        // register HttpClient with a simple identifiable user-agent
+        services.AddHttpClient("olx", client =>
+        {
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("BuscaImovel.Collectors/1.0 (+https://example.local)");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
+
+        // Conditional registration: try OLX if enabled, otherwise keep Fake as default
+        var olxSection = configuration.GetSection("Collectors:Olx");
+        var enabled = olxSection.GetValue<bool>("Enabled");
+        if (enabled)
+        {
+            services.AddScoped<IPropertyCollector>(sp =>
+            {
+                var factory = sp.GetRequiredService<IHttpClientFactory>();
+                var http = factory.CreateClient("olx");
+                var options = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<CollectorSettings>>();
+                var logger = sp.GetRequiredService<ILogger<OlxPropertyCollector>>();
+                return new OlxPropertyCollector(http, options, logger);
+            });
+        }
+        else
+        {
+            services.AddScoped<IPropertyCollector, FakePropertyCollector>();
+        }
+
         services.AddScoped<PropertyImportService>();
     })
     .ConfigureLogging(logging =>
@@ -43,6 +71,7 @@ try
     var result = await importService.ImportAsync(properties);
 
     logger.LogInformation("Importação finalizada.");
+    logger.LogInformation("Fonte: {Source}", result.SourceName ?? "(desconhecida)");
     logger.LogInformation("Total coletado: {Collected}", result.Collected);
     logger.LogInformation("Total inserido: {Inserted}", result.Inserted);
     logger.LogInformation("Total atualizado: {Updated}", result.Updated);

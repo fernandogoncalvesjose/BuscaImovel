@@ -1,0 +1,149 @@
+Você é um desenvolvedor backend sênior especialista em C#, .NET 8, HttpClient, HtmlAgilityPack, scraping ético, parsing HTML e jobs resilientes.
+
+No projeto "Busca Imóvel", já existe:
+- Backend .NET com EF Core + SQLite
+- Console App BuscaImovel.Collectors
+- Interface IPropertyCollector
+- ExternalPropertyDto
+- PropertyImportService
+- FakePropertyCollector funcionando
+
+Agora quero implementar o primeiro collector real: OLX.
+
+Objetivo:
+Criar um OlxPropertyCollector que busque imóveis anunciados na OLX para São Paulo e normalize os dados para ExternalPropertyDto.
+
+Importante:
+- Não usar Selenium nesta etapa
+- Usar HttpClient
+- Usar HtmlAgilityPack ou AngleSharp
+- Implementar de forma resiliente
+- Se o HTML mudar ou a coleta falhar, o sistema não pode quebrar
+- Manter FakePropertyCollector disponível para testes
+- Não baixar imagens, apenas salvar a URL da imagem
+- Não copiar descrição completa se isso gerar risco; usar resumo curto quando disponível
+- Sempre armazenar SourceUrl apontando para o anúncio original
+- Usar delays entre requisições
+- Usar User-Agent simples e identificável
+- Não fazer scraping agressivo
+
+Tarefas:
+
+1. Instalar pacotes necessários no projeto BuscaImovel.Collectors:
+- HtmlAgilityPack
+- Microsoft.Extensions.Http
+- Microsoft.Extensions.Logging.Console
+
+2. Criar classe:
+OlxPropertyCollector : IPropertyCollector
+
+3. Criar configuração:
+CollectorSettings
+
+Campos:
+- SourceName
+- BaseUrl
+- SearchUrl
+- MaxPages
+- DelayBetweenRequestsInSeconds
+- Enabled
+
+4. Adicionar configuração no appsettings.json do collector:
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "../../backend/BuscaImovel.Api/buscaimovel.db"
+  },
+  "Collectors": {
+    "Olx": {
+      "SourceName": "OLX",
+      "BaseUrl": "https://www.olx.com.br",
+      "SearchUrl": "https://www.olx.com.br/imoveis/estado-sp/sao-paulo-e-regiao/sao-paulo",
+      "MaxPages": 1,
+      "DelayBetweenRequestsInSeconds": 3,
+      "Enabled": true
+    }
+  }
+}
+
+5. O collector deve:
+- acessar a página de busca
+- encontrar cards de imóveis
+- extrair quando possível:
+  - título
+  - preço
+  - bairro/localização
+  - imagem
+  - link do anúncio
+  - externalId, se conseguir extrair da URL ou atributo HTML
+- preencher campos ausentes com valores padrão seguros
+- retornar IEnumerable<ExternalPropertyDto>
+
+6. Criar métodos auxiliares:
+- ExtractTitle
+- ExtractPrice
+- ExtractLocation
+- ExtractImageUrl
+- ExtractSourceUrl
+- ExtractExternalId
+- ParseDecimalPrice
+- NormalizeNeighborhood
+
+7. Como os seletores da OLX podem mudar, implementar parsing flexível:
+- tentar por atributos data-testid
+- tentar por classes conhecidas
+- tentar por links que contenham /imoveis/
+- ignorar cards incompletos
+- logar warnings, não lançar exceção geral
+
+8. Atualizar Program.cs:
+- registrar HttpClient
+- registrar OlxPropertyCollector
+- permitir escolher collector por configuração
+- manter FakePropertyCollector opcional
+
+9. Melhorar ImportResult para mostrar:
+- fonte
+- coletados
+- inseridos
+- atualizados
+- ignorados
+- erros
+
+10. Garantir que PropertyImportService continue usando:
+SourceName + ExternalId
+para identificar imóveis existentes.
+
+11. Criar tratamento para imóveis sem ExternalId:
+- gerar hash com SourceName + SourceUrl
+
+12. Adicionar logs:
+- início da coleta
+- URL acessada
+- quantidade de cards encontrados
+- quantidade normalizada
+- erros de parsing
+- resultado final da importação
+
+13. Atualizar README:
+- como rodar collector da OLX
+- como ajustar MaxPages
+- como desativar OLX e usar Fake
+- cuidados sobre coleta responsável
+
+Regras:
+- Não implementar Zap ainda
+- Não implementar Viva Real ainda
+- Não implementar QuintoAndar ainda
+- Não usar Selenium
+- Não fazer login
+- Não burlar bloqueios
+- Não usar proxy
+- Não quebrar API ou frontend
+- O código deve compilar sem erros
+
+Ao final, explique:
+- arquivos criados
+- arquivos alterados
+- comandos para executar
+- como testar no Swagger e no frontend

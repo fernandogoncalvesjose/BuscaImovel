@@ -22,12 +22,20 @@ namespace BuscaImovel.Collectors.Services
             {
                 result.Collected++;
 
-                if (string.IsNullOrWhiteSpace(external.SourceName) || string.IsNullOrWhiteSpace(external.ExternalId))
+                if (string.IsNullOrWhiteSpace(external.SourceName))
                 {
-                    result.Errors.Add($"Propriedade inválida: SourceName ou ExternalId ausente para '{external.Title}'.");
+                    result.Errors.Add($"Propriedade inválida: SourceName ausente para '{external.Title}'.");
                     result.Skipped++;
                     continue;
                 }
+
+                if (string.IsNullOrWhiteSpace(external.ExternalId))
+                {
+                    // Generate deterministic id based on source and url
+                    external.ExternalId = GenerateExternalIdFromSourceUrl(external.SourceName, external.SourceUrl);
+                }
+
+                result.SourceName ??= external.SourceName;
 
                 var existing = await _dbContext.Properties
                     .FirstOrDefaultAsync(p => p.SourceName == external.SourceName && p.ExternalId == external.ExternalId);
@@ -141,6 +149,15 @@ namespace BuscaImovel.Collectors.Services
             existing.IsFurnished = external.IsFurnished;
             existing.SourceUrl = external.SourceUrl;
             existing.ImageUrl = external.ImageUrl;
+        }
+
+        private static string GenerateExternalIdFromSourceUrl(string sourceName, string sourceUrl)
+        {
+            var input = (sourceName ?? string.Empty) + "|" + (sourceUrl ?? string.Empty);
+            using var sha = System.Security.Cryptography.SHA256.Create();
+            var bytes = System.Text.Encoding.UTF8.GetBytes(input);
+            var hash = sha.ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant().Substring(0, 20);
         }
     }
 }
